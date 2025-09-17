@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { StyleSheetManager } from "styled-components";
 
+import { getOS } from "@/utils/common";
 import copyStyles from "@/utils/copyStyles";
 
 import type { DocumentPIPProps } from "@/types/pip";
@@ -24,12 +25,24 @@ export default function DocumentPIP({
 
   // Effects
   useEffect(() => {
-    togglePictureInPicture(isPipOpen);
-
     return () => {
       togglePictureInPicture(false);
     };
+  }, []);
+
+  useEffect(() => {
+    togglePictureInPicture(isPipOpen);
   }, [isPipOpen]);
+
+  useEffect(() => {
+    pipWindow?.addEventListener("pagehide", onClosePIPWindow);
+    pipWindow?.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      pipWindow?.removeEventListener("pagehide", onClosePIPWindow);
+      pipWindow?.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [pipWindow]);
 
   // Methods
   const togglePictureInPicture = (open: boolean) => {
@@ -69,28 +82,34 @@ export default function DocumentPIP({
     root.id = "pip-root";
     pip.document.body.appendChild(root);
 
-    pip.addEventListener("pagehide", onClosePIPWindow, { once: true });
-
     setPipWindow(pip);
   };
 
   const closePIPWindow = () => {
-    if (!pipWindow) {
-      return;
-    }
-
-    pipWindow.close();
+    pipWindow?.close();
     setPipWindow(null);
+  };
+
+  const onClosePIPWindow = () => {
+    setPipWindow(null);
+    onClose();
   };
 
   const onEnterPIPWindow = (e: DocumentPictureInPictureEvent) => {
     onEnter?.(e);
   };
 
-  const onClosePIPWindow = () => {
-    closePIPWindow();
+  const handleKeyDown = (e: KeyboardEvent) => {
+    const { key, metaKey, ctrlKey } = e;
 
-    if (isPipOpen) {
+    const isMac = getOS() === "macOS";
+    const lowerCaseKey = key.toLowerCase();
+
+    if (
+      (isMac && metaKey && lowerCaseKey === "w") ||
+      (!isMac && ctrlKey && lowerCaseKey === "w")
+    ) {
+      closePIPWindow();
       onClose();
     }
   };
