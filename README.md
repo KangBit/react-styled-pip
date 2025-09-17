@@ -63,6 +63,7 @@ function App() {
 | `copyAllStyles`                | `boolean`                                  | `true`       | Whether to copy all styles to PIP window                                                                                          |
 | `disallowReturnToOpener`       | `boolean`                                  | `false`      | Whether to disallow returning to the opener window                                                                                |
 | `preferInitialWindowPlacement` | `boolean`                                  | `false`      | Whether to prefer initial window placement                                                                                        |
+| `onEnter`                      | `() => void`                               | -            | Callback function when the PIP window is successfully opened                                                                      |
 | `onClose`                      | `() => void`                               | -            | Callback function when the PIP window is closed                                                                                   |
 
 ### Types
@@ -73,7 +74,7 @@ interface PIPWindowSize {
   height: number;
 }
 
-type PIPMode = "clone" | "transfer";
+type PIPMode = "clone" | "transfer" | "transfer-only";
 
 interface DocumentPIPProps {
   children: React.ReactNode;
@@ -83,6 +84,7 @@ interface DocumentPIPProps {
   copyAllStyles?: boolean;
   disallowReturnToOpener?: boolean;
   preferInitialWindowPlacement?: boolean;
+  onEnter?: (e: Event) => void;
   onClose: () => void;
 }
 ```

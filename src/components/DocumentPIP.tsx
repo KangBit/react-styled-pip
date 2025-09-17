@@ -17,6 +17,7 @@ export default function DocumentPIP({
   copyAllStyles = true,
   disallowReturnToOpener = false,
   preferInitialWindowPlacement = false,
+  onEnter,
   onClose,
 }: DocumentPIPProps) {
   const [pipWindow, setPipWindow] = useState<Window | null>(null);
@@ -62,6 +63,7 @@ export default function DocumentPIP({
     root.id = "pip-root";
     pip.document.body.appendChild(root);
 
+    pip.addEventListener("enter", onEnterPIPWindow, { once: true });
     pip.addEventListener("pagehide", onClosePIPWindow, { once: true });
 
     setPipWindow(pip);
@@ -74,6 +76,10 @@ export default function DocumentPIP({
 
     pipWindow.close();
     setPipWindow(null);
+  };
+
+  const onEnterPIPWindow = (e: Event) => {
+    onEnter?.(e);
   };
 
   const onClosePIPWindow = () => {
