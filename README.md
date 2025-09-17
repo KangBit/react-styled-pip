@@ -25,6 +25,7 @@ import { useState } from "react";
 import DocumentPip from "react-document-pip";
 
 function App() {
+  const pipWindowRef = useRef<Window | null>(null);
   const [isPipOpen, setIsPipOpen] = useState(false);
 
   const togglePip = () => {
@@ -38,6 +39,7 @@ function App() {
   return (
     <>
       <DocumentPip
+        ref={pipWindowRef}
         isPipOpen={isPipOpen}
         size={{ width: 500, height: 400 }}
         onClose={handleClose}
@@ -51,6 +53,12 @@ function App() {
 ```
 
 ## API Reference
+
+### DocumentPIP ForwardedRef
+
+| Type             | Description |
+| ---------------- | ----------- |
+| `Window \| null` | PIP window  |
 
 ### DocumentPIP Props
 
