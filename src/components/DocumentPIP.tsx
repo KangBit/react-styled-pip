@@ -86,7 +86,7 @@ export default function DocumentPIP({
   const pipContent = () => {
     const pipRoot = pipWindow?.document.getElementById("pip-root");
     if (!pipRoot || !isPipOpen) {
-      return children;
+      return mode === "transfer-only" ? null : children;
     }
 
     return (
