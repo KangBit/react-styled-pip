@@ -109,6 +109,11 @@ This library uses the [Document Picture-in-Picture API](https://developer.chrome
 - Edge 116+
 - Opera 102+
 
+## Related Packages
+
+- [react-document-pip](https://www.npmjs.com/package/react-document-pip) - React version without styled-components support
+- [vue-pip](https://www.npmjs.com/package/vue-pip) - Vue version of Document Picture-in-Picture
+
 ## License
 
 MIT
