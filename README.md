@@ -42,6 +42,7 @@ function App() {
         ref={pipWindowRef}
         isPipOpen={isPipOpen}
         size={{ width: 500, height: 400 }}
+        className="dark"
         onClose={handleClose}
       >
         <MyComponent />
@@ -71,6 +72,7 @@ function App() {
 | `copyAllStyles`                | `boolean`                                  | `true`       | Whether to copy all styles to PIP window                                                                                          |
 | `disallowReturnToOpener`       | `boolean`                                  | `false`      | Whether to disallow returning to the opener window                                                                                |
 | `preferInitialWindowPlacement` | `boolean`                                  | `false`      | Whether to prefer initial window placement                                                                                        |
+| `className`                    | `string`                                   | `''`         | pip window documentElement classname                                                                                              |
 | `onEnter`                      | `() => void`                               | -            | Callback function when the PIP window is successfully opened                                                                      |
 | `onClose`                      | `() => void`                               | -            | Callback function when the PIP window is closed                                                                                   |
 
@@ -92,6 +94,8 @@ interface DocumentPIPProps {
   copyAllStyles?: boolean;
   disallowReturnToOpener?: boolean;
   preferInitialWindowPlacement?: boolean;
+  className?: string;
+
   onEnter?: (e: DocumentPictureInPictureEvent) => void;
   onClose: () => void;
 }
